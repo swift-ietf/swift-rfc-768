@@ -21,14 +21,14 @@ struct RFC_768_Tests {
     @Suite("Port")
     struct PortTests {
 
-        @Test("Port initialization")
-        func portInit() {
+        @Test
+        func `Port initialization`() {
             let port = RFC_768.Port(8080)
             #expect(port.rawValue == 8080)
         }
 
-        @Test("Well-known port constants")
-        func wellKnownPorts() {
+        @Test
+        func `Well-known port constants`() {
             #expect(RFC_768.Port.dns.rawValue == 53)
             #expect(RFC_768.Port.dhcp.rawValue == 67)
             #expect(RFC_768.Port.tftp.rawValue == 69)
@@ -37,8 +37,8 @@ struct RFC_768_Tests {
             #expect(RFC_768.Port.syslog.rawValue == 514)
         }
 
-        @Test("Port classification")
-        func portClassification() {
+        @Test
+        func `Port classification`() {
             let wellKnown = RFC_768.Port(80)
             let registered = RFC_768.Port(8080)
             let dynamic = RFC_768.Port(50000)
@@ -56,15 +56,15 @@ struct RFC_768_Tests {
             #expect(dynamic.isDynamic)
         }
 
-        @Test("Port byte parsing")
-        func portByteParsing() throws {
+        @Test
+        func `Port byte parsing`() throws {
             let bytes: [UInt8] = [0x1F, 0x90]  // 8080 in big-endian
             let port = try RFC_768.Port(bytes: bytes)
             #expect(port.rawValue == 8080)
         }
 
-        @Test("Port serialization")
-        func portSerialization() {
+        @Test
+        func `Port serialization`() {
             let port = RFC_768.Port(8080)
             var buffer: [UInt8] = []
             RFC_768.Port.serialize(port, into: &buffer)
@@ -77,29 +77,29 @@ struct RFC_768_Tests {
     @Suite("Length")
     struct LengthTests {
 
-        @Test("Valid length creation")
-        func validLength() throws {
+        @Test
+        func `Valid length creation`() throws {
             let length = try RFC_768.Length(20)
             #expect(length.rawValue == 20)
             #expect(length.data == 12)  // 20 - 8 = 12 bytes of data
         }
 
-        @Test("Minimum length")
-        func minimumLength() throws {
+        @Test
+        func `Minimum length`() throws {
             let length = try RFC_768.Length(8)
             #expect(length.rawValue == 8)
             #expect(length.data == 0)
         }
 
-        @Test("Length too short throws")
-        func lengthTooShort() {
+        @Test
+        func `Length too short throws`() {
             #expect(throws: RFC_768.Length.Error.self) {
                 try RFC_768.Length(7)
             }
         }
 
-        @Test("Length byte parsing")
-        func lengthByteParsing() throws {
+        @Test
+        func `Length byte parsing`() throws {
             let bytes: [UInt8] = [0x00, 0x14]  // 20 in big-endian
             let length = try RFC_768.Length(bytes: bytes)
             #expect(length.rawValue == 20)
@@ -111,14 +111,14 @@ struct RFC_768_Tests {
     @Suite("Checksum")
     struct ChecksumTests {
 
-        @Test("Zero checksum indicates absent")
-        func zeroChecksum() {
+        @Test
+        func `Zero checksum indicates absent`() {
             #expect(RFC_768.Checksum.zero.rawValue == 0)
             #expect(RFC_768.Checksum.zero.isAbsent)
         }
 
-        @Test("Non-zero checksum is not absent")
-        func nonZeroChecksum() {
+        @Test
+        func `Non-zero checksum is not absent`() {
             let checksum = RFC_768.Checksum(rawValue: 0xABCD)
             #expect(!checksum.isAbsent)
         }
@@ -129,8 +129,8 @@ struct RFC_768_Tests {
     @Suite("Header")
     struct HeaderTests {
 
-        @Test("Header creation")
-        func headerCreation() throws {
+        @Test
+        func `Header creation`() throws {
             let header = RFC_768.Header(
                 source: .init(12345),
                 destination: .dns,
@@ -143,8 +143,8 @@ struct RFC_768_Tests {
             #expect(header.checksum.isAbsent)
         }
 
-        @Test("Header byte parsing")
-        func headerByteParsing() throws {
+        @Test
+        func `Header byte parsing`() throws {
             // Source: 12345 (0x3039), Dest: 53 (0x0035), Length: 20 (0x0014), Checksum: 0
             let bytes: [UInt8] = [
                 0x30, 0x39,  // Source port
@@ -159,8 +159,8 @@ struct RFC_768_Tests {
             #expect(header.checksum.rawValue == 0)
         }
 
-        @Test("Header serialization roundtrip")
-        func headerRoundtrip() throws {
+        @Test
+        func `Header serialization roundtrip`() throws {
             let original = RFC_768.Header(
                 source: .init(8080),
                 destination: .ntp,
@@ -183,8 +183,8 @@ struct RFC_768_Tests {
     @Suite("Datagram")
     struct DatagramTests {
 
-        @Test("Datagram creation with auto length")
-        func datagramCreation() throws {
+        @Test
+        func `Datagram creation with auto length`() throws {
             let data: [UInt8] = [0x01, 0x02, 0x03, 0x04]
             let datagram = try RFC_768.Datagram(
                 source: .init(12345),
@@ -195,8 +195,8 @@ struct RFC_768_Tests {
             #expect(datagram.data == data)
         }
 
-        @Test("Datagram serialization roundtrip")
-        func datagramRoundtrip() throws {
+        @Test
+        func `Datagram serialization roundtrip`() throws {
             let original = try RFC_768.Datagram(
                 source: .init(8080),
                 destination: .syslog,
@@ -217,18 +217,18 @@ struct RFC_768_Tests {
     @Suite("Constants")
     struct ConstantsTests {
 
-        @Test("Protocol number")
-        func protocolNumber() {
+        @Test
+        func `Protocol number`() {
             #expect(RFC_768.protocolNumber == 17)
         }
 
-        @Test("Minimum length")
-        func minimumLength() {
+        @Test
+        func `Minimum length`() {
             #expect(RFC_768.minimumLength == 8)
         }
 
-        @Test("Header size")
-        func headerSize() {
+        @Test
+        func `Header size`() {
             #expect(RFC_768.headerSize == 8)
         }
     }
