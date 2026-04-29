@@ -1,0 +1,10 @@
+# .github/metadata.yaml
+# Triaged by AI-assisted bulk pass (2026-04-29).
+description: "Swift implementation of RFC 768: User Datagram Protocol."
+topics:
+  - standards
+  - rfc
+  - rfc-768
+  - udp
+  - internet-protocols
+homepage: "https://swift-institute.org"
