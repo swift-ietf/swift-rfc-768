@@ -82,11 +82,11 @@ extension RFC_768.Checksum {
     ) -> RFC_768.Checksum
     where
         P: Collection,
-        P.Element == UInt8,
+        P.Element == Byte,
         H: Collection,
-        H.Element == UInt8,
+        H.Element == Byte,
         D: Collection,
-        D.Element == UInt8
+        D.Element == Byte
     {
 
         var sum: UInt32 = 0
@@ -112,13 +112,15 @@ extension RFC_768.Checksum {
     private static func sumWords<Bytes: Collection>(
         _ initial: UInt32,
         bytes: Bytes
-    ) -> UInt32 where Bytes.Element == UInt8 {
+    ) -> UInt32 where Bytes.Element == Byte {
         var sum = initial
         var iterator = bytes.makeIterator()
 
+        // UInt32 accumulator is arithmetic-domain; cross the byte-domain
+        // boundary via .underlying.
         while let high = iterator.next() {
-            let low = iterator.next() ?? 0
-            sum += UInt32(high) << 8 | UInt32(low)
+            let low = iterator.next()?.underlying ?? 0
+            sum += UInt32(high.underlying) << 8 | UInt32(low)
         }
 
         return sum
@@ -138,11 +140,11 @@ extension RFC_768.Checksum {
     ) -> Bool
     where
         P: Collection,
-        P.Element == UInt8,
+        P.Element == Byte,
         H: Collection,
-        H.Element == UInt8,
+        H.Element == Byte,
         D: Collection,
-        D.Element == UInt8
+        D.Element == Byte
     {
 
         var sum: UInt32 = 0
@@ -166,7 +168,7 @@ extension RFC_768.Checksum {
     /// - Parameter bytes: Binary data containing the checksum (2 bytes)
     /// - Throws: `Error` if there are insufficient bytes
     public init<Bytes: Collection>(bytes: Bytes) throws(Error)
-    where Bytes.Element == UInt8 {
+    where Bytes.Element == Byte {
         var iterator = bytes.makeIterator()
 
         guard let high = iterator.next() else {
@@ -176,7 +178,9 @@ extension RFC_768.Checksum {
             throw .insufficientBytes
         }
 
-        let value = UInt16(high) << 8 | UInt16(low)
+        // UInt16 storage is arithmetic-domain; cross the byte-domain boundary
+        // via .underlying.
+        let value = UInt16(high.underlying) << 8 | UInt16(low.underlying)
         self.init(__unchecked: (), rawValue: value)
     }
 }
@@ -187,9 +191,9 @@ extension RFC_768.Checksum: Binary.Serializable {
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ checksum: RFC_768.Checksum,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
-        buffer.append(UInt8(checksum.rawValue >> 8))
-        buffer.append(UInt8(checksum.rawValue & 0xFF))
+    ) where Buffer.Element == Byte {
+        // UInt16 → [Byte] via Byte-primary BinaryInteger.bytes(endianness:).
+        buffer.append(contentsOf: checksum.rawValue.bytes(endianness: .big))
     }
 }
 

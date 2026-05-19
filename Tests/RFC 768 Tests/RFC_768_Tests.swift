@@ -58,7 +58,7 @@ struct RFC_768_Tests {
 
         @Test
         func `Port byte parsing`() throws {
-            let bytes: [UInt8] = [0x1F, 0x90]  // 8080 in big-endian
+            let bytes: [Byte] = [0x1F, 0x90]  // 8080 in big-endian
             let port = try RFC_768.Port(bytes: bytes)
             #expect(port.rawValue == 8080)
         }
@@ -66,7 +66,7 @@ struct RFC_768_Tests {
         @Test
         func `Port serialization`() {
             let port = RFC_768.Port(8080)
-            var buffer: [UInt8] = []
+            var buffer: [Byte] = []
             RFC_768.Port.serialize(port, into: &buffer)
             #expect(buffer == [0x1F, 0x90])
         }
@@ -100,7 +100,7 @@ struct RFC_768_Tests {
 
         @Test
         func `Length byte parsing`() throws {
-            let bytes: [UInt8] = [0x00, 0x14]  // 20 in big-endian
+            let bytes: [Byte] = [0x00, 0x14]  // 20 in big-endian
             let length = try RFC_768.Length(bytes: bytes)
             #expect(length.rawValue == 20)
         }
@@ -146,7 +146,7 @@ struct RFC_768_Tests {
         @Test
         func `Header byte parsing`() throws {
             // Source: 12345 (0x3039), Dest: 53 (0x0035), Length: 20 (0x0014), Checksum: 0
-            let bytes: [UInt8] = [
+            let bytes: [Byte] = [
                 0x30, 0x39,  // Source port
                 0x00, 0x35,  // Destination port
                 0x00, 0x14,  // Length
@@ -167,7 +167,7 @@ struct RFC_768_Tests {
                 length: try .init(16),
                 checksum: RFC_768.Checksum(rawValue: 0xABCD)
             )
-            var buffer: [UInt8] = []
+            var buffer: [Byte] = []
             RFC_768.Header.serialize(original, into: &buffer)
 
             let parsed = try RFC_768.Header(bytes: buffer)
@@ -185,7 +185,7 @@ struct RFC_768_Tests {
 
         @Test
         func `Datagram creation with auto length`() throws {
-            let data: [UInt8] = [0x01, 0x02, 0x03, 0x04]
+            let data: [Byte] = [0x01, 0x02, 0x03, 0x04]
             let datagram = try RFC_768.Datagram(
                 source: .init(12345),
                 destination: .dns,
@@ -202,7 +202,7 @@ struct RFC_768_Tests {
                 destination: .syslog,
                 data: [0xDE, 0xAD, 0xBE, 0xEF]
             )
-            var buffer: [UInt8] = []
+            var buffer: [Byte] = []
             RFC_768.Datagram.serialize(original, into: &buffer)
 
             let parsed = try RFC_768.Datagram(bytes: buffer)

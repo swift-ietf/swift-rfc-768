@@ -28,16 +28,22 @@ extension RFC_768 {
     /// ```
     public struct Datagram: Hashable, Sendable {
         public let header: Header
-        public let data: [UInt8]
+        public let data: [Byte]
 
         /// Creates a datagram from a header and data
         ///
         /// - Parameters:
         ///   - header: The UDP header
         ///   - data: The payload data
-        public init(header: Header, data: [UInt8]) {
+        public init(header: Header, data: [Byte]) {
             self.header = header
             self.data = data
+        }
+
+        /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
+        @_disfavoredOverload
+        public init(header: Header, data: [UInt8]) {
+            self.init(header: header, data: [Byte](data))
         }
     }
 }
@@ -56,7 +62,7 @@ extension RFC_768.Datagram {
     public init(
         source: RFC_768.Port,
         destination: RFC_768.Port,
-        data: [UInt8],
+        data: [Byte],
         checksum: RFC_768.Checksum = .zero
     ) throws(Error) {
         let totalLength = RFC_768.headerSize + data.count
@@ -80,6 +86,17 @@ extension RFC_768.Datagram {
         )
         self.data = data
     }
+
+    /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
+    @_disfavoredOverload
+    public init(
+        source: RFC_768.Port,
+        destination: RFC_768.Port,
+        data: [UInt8],
+        checksum: RFC_768.Checksum = .zero
+    ) throws(Error) {
+        try self.init(source: source, destination: destination, data: [Byte](data), checksum: checksum)
+    }
 }
 
 // MARK: - Checksum Operations
@@ -93,7 +110,7 @@ extension RFC_768.Datagram {
         pseudo pseudoHeader: RFC_768.PseudoHeader
     ) -> RFC_768.Datagram {
         // Serialize header with zero checksum
-        var headerBytes: [UInt8] = []
+        var headerBytes: [Byte] = []
         let tempHeader = RFC_768.Header(
             source: header.source,
             destination: header.destination,
@@ -102,7 +119,7 @@ extension RFC_768.Datagram {
         )
         RFC_768.Header.serialize(tempHeader, into: &headerBytes)
 
-        var pseudoBytes: [UInt8] = []
+        var pseudoBytes: [Byte] = []
         RFC_768.PseudoHeader.serialize(pseudoHeader, into: &pseudoBytes)
 
         let checksum = RFC_768.Checksum.compute(
@@ -130,7 +147,7 @@ extension RFC_768.Datagram {
     /// - Parameter bytes: Binary data containing the datagram
     /// - Throws: `Error` if parsing fails
     public init<Bytes: Collection>(bytes: Bytes) throws(Error)
-    where Bytes.Element == UInt8 {
+    where Bytes.Element == Byte {
         let header: RFC_768.Header
         do {
             header = try RFC_768.Header(bytes: bytes)
@@ -160,7 +177,7 @@ extension RFC_768.Datagram: Binary.Serializable {
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ datagram: RFC_768.Datagram,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         RFC_768.Header.serialize(datagram.header, into: &buffer)
         buffer.append(contentsOf: datagram.data)
     }

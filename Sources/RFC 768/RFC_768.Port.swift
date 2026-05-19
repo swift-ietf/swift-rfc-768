@@ -95,7 +95,7 @@ extension RFC_768.Port {
     /// - Parameter bytes: Binary data containing the port (2 bytes)
     /// - Throws: `Error` if there are insufficient bytes
     public init<Bytes: Collection>(bytes: Bytes) throws(Error)
-    where Bytes.Element == UInt8 {
+    where Bytes.Element == Byte {
         var iterator = bytes.makeIterator()
 
         guard let high = iterator.next() else {
@@ -105,7 +105,9 @@ extension RFC_768.Port {
             throw .insufficientBytes
         }
 
-        let value = UInt16(high) << 8 | UInt16(low)
+        // UInt16 storage is arithmetic-domain; cross the byte-domain boundary
+        // via .underlying.
+        let value = UInt16(high.underlying) << 8 | UInt16(low.underlying)
         self.init(__unchecked: (), rawValue: value)
     }
 }
@@ -116,9 +118,9 @@ extension RFC_768.Port: Binary.Serializable {
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ port: RFC_768.Port,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
-        buffer.append(UInt8(port.rawValue >> 8))
-        buffer.append(UInt8(port.rawValue & 0xFF))
+    ) where Buffer.Element == Byte {
+        // UInt16 → [Byte] via Byte-primary BinaryInteger.bytes(endianness:).
+        buffer.append(contentsOf: port.rawValue.bytes(endianness: .big))
     }
 }
 

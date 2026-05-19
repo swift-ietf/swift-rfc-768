@@ -77,16 +77,17 @@ extension RFC_768.PseudoHeader: Binary.Serializable {
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ pseudoHeader: RFC_768.PseudoHeader,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         // Source address (4 bytes)
         RFC_791.IPv4.Address.serialize(pseudoHeader.source, into: &buffer)
 
         // Destination address (4 bytes)
         RFC_791.IPv4.Address.serialize(pseudoHeader.destination, into: &buffer)
 
-        // Zero + Protocol (2 bytes)
+        // Zero + Protocol (2 bytes). protocolNumber stays UInt8 in Constants;
+        // bridge via Byte() at the conformance boundary.
         buffer.append(0)
-        buffer.append(RFC_768.protocolNumber)
+        buffer.append(Byte(RFC_768.protocolNumber))
 
         // UDP length (2 bytes, big-endian)
         buffer.append(contentsOf: pseudoHeader.length.bytes(endianness: .big))
