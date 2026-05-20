@@ -40,11 +40,8 @@ extension RFC_768 {
             self.data = data
         }
 
-        /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
-        @_disfavoredOverload
-        public init(header: Header, data: [UInt8]) {
-            self.init(header: header, data: [Byte](data))
-        }
+        // Stdlib-interop UInt8 forwarder lives in `RFC 768 Standard Library
+        // Integration` per [API-BYTE-007].
     }
 }
 
@@ -87,16 +84,8 @@ extension RFC_768.Datagram {
         self.data = data
     }
 
-    /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
-    @_disfavoredOverload
-    public init(
-        source: RFC_768.Port,
-        destination: RFC_768.Port,
-        data: [UInt8],
-        checksum: RFC_768.Checksum = .zero
-    ) throws(Error) {
-        try self.init(source: source, destination: destination, data: [Byte](data), checksum: checksum)
-    }
+    // Stdlib-interop UInt8 forwarder lives in `RFC 768 Standard Library
+    // Integration` per [API-BYTE-007].
 }
 
 // MARK: - Checksum Operations

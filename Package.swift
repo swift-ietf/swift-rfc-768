@@ -21,11 +21,13 @@ let package = Package(
         .watchOS(.v26)
     ],
     products: [
-        .library(name: "RFC 768", targets: ["RFC 768"])
+        .library(name: "RFC 768", targets: ["RFC 768"]),
+        .library(name: "RFC 768 Standard Library Integration", targets: ["RFC 768 Standard Library Integration"]),
     ],
     dependencies: [
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-ascii-primitives"),
+        .package(path: "../../swift-primitives/swift-byte-primitives"),
         .package(path: "../swift-rfc-791")
     ],
     targets: [
@@ -33,10 +35,24 @@ let package = Package(
             name: "RFC 768",
             dependencies: [.standards, .incits41986, .rfc791]
         ),
+        .target(
+            name: "RFC 768 Standard Library Integration",
+            dependencies: [
+                "RFC 768",
+                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
+            ]
+        ),
         .testTarget(
             name: "RFC 768 Tests",
             dependencies: [
                 "RFC 768",
+            ]
+        ),
+        .testTarget(
+            name: "RFC 768 Standard Library Integration Tests",
+            dependencies: [
+                "RFC 768",
+                "RFC 768 Standard Library Integration",
             ]
         ),
     ],
