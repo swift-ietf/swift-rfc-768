@@ -12,7 +12,7 @@ internal import Byte_Primitives
 extension RFC_768.Datagram {
     /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
     @_disfavoredOverload
-    public init(header: Header, data: [UInt8]) {
+    public init(header: RFC_768.Header, data: [UInt8]) {
         self.init(header: header, data: [Byte](data))
     }
 
@@ -23,7 +23,7 @@ extension RFC_768.Datagram {
         destination: RFC_768.Port,
         data: [UInt8],
         checksum: RFC_768.Checksum = .zero
-    ) throws(Error) {
+    ) throws(RFC_768.Datagram.Error) {
         try self.init(source: source, destination: destination, data: [Byte](data), checksum: checksum)
     }
 }
