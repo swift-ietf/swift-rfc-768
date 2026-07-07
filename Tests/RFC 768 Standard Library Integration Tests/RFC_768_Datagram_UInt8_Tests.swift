@@ -1,6 +1,6 @@
-import Testing
 import RFC_768
 import RFC_768_Standard_Library_Integration
+import Testing
 
 @Suite("RFC 768 Datagram UInt8 forwarders")
 struct RFC_768_Datagram_UInt8_Tests {

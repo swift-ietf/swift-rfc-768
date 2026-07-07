@@ -6,8 +6,8 @@
 // delegating to the byte-domain primary via `[Byte](data)`. Per
 // [API-BYTE-007] (byte-discipline skill).
 
-public import RFC_768
 internal import Byte_Primitives
+public import RFC_768
 
 extension RFC_768.Datagram {
     /// Stdlib-interop forwarder: construction from `[UInt8]` payload.
