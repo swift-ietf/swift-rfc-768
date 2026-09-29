@@ -15,41 +15,42 @@ let package = Package(
             name: "RFC 768 Standard Library Integration",
             targets: ["RFC 768 Standard Library Integration"]
         ),
+        .library(
+            name: "RFC 768 Foundation Integration",
+            targets: ["RFC 768 Foundation Integration"]
+        ),
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/swift-atoms/swift-standard-library-extensions.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ascii.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
-            branch: "main"
-        ),
+        .package(url: "https://github.com/swift-atoms/swift-byte.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-791.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "RFC 768",
-            dependencies: [.product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"), .product(name: "ASCII", package: "swift-ascii"), .product(name: "RFC 791", package: "swift-rfc-791")]
+            dependencies: [
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "RFC 791", package: "swift-rfc-791"),
+            ]
         ),
         .target(
             name: "RFC 768 Standard Library Integration",
             dependencies: [
                 .target(name: "RFC 768"),
-                .product(
-                    name: "Byte Standard Library Integration",
-                    package: "swift-byte"
-                ),
+                .product(name: "Byte", package: "swift-byte"),
+            ]
+        ),
+        .target(
+            name: "RFC 768 Foundation Integration",
+            dependencies: [
+                .target(name: "RFC 768")
             ]
         ),
         .testTarget(
             name: "RFC 768 Tests",
             dependencies: [
-                .target(name: "RFC 768")
+                .target(name: "RFC 768"),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "RFC 791", package: "swift-rfc-791"),
             ]
         ),
         .testTarget(
@@ -57,6 +58,14 @@ let package = Package(
             dependencies: [
                 .target(name: "RFC 768"),
                 .target(name: "RFC 768 Standard Library Integration"),
+                .product(name: "Byte", package: "swift-byte"),
+            ]
+        ),
+        .testTarget(
+            name: "RFC 768 Foundation Integration Tests",
+            dependencies: [
+                .target(name: "RFC 768"),
+                .target(name: "RFC 768 Foundation Integration"),
             ]
         ),
     ],

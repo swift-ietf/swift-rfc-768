@@ -5,7 +5,7 @@ extension RFC_768.Datagram {
 
     @_disfavoredOverload
     public init(header: RFC_768.Header, data: [UInt8]) {
-        self.init(header: header, data: [Byte](data))
+        self.init(header: header, data: data.map(Byte.init(bitPattern:)))
     }
 
     @_disfavoredOverload
@@ -18,7 +18,7 @@ extension RFC_768.Datagram {
         try self.init(
             source: source,
             destination: destination,
-            data: [Byte](data),
+            data: data.map(Byte.init(bitPattern:)),
             checksum: checksum
         )
     }

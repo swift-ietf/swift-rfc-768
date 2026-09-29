@@ -1,8 +1,6 @@
-import Standard_Library_Extensions
-
 extension RFC_768 {
 
-    public struct Port: RawRepresentable, Hashable, Sendable, Codable {
+    public struct Port: RawRepresentable, Hashable, Sendable {
         public let rawValue: UInt16
 
         private init(__unchecked: Void, rawValue: UInt16) {
@@ -41,34 +39,6 @@ extension RFC_768.Port {
     public var isRegistered: Bool { rawValue >= 1024 && rawValue < 49152 }
 
     public var isDynamic: Bool { rawValue >= 49152 }
-}
-
-extension RFC_768.Port {
-
-    public init<Bytes: Swift.Collection>(bytes: Bytes) throws(Error)
-    where Bytes.Element == Byte {
-        var iterator = bytes.makeIterator()
-
-        guard let high = iterator.next() else {
-            throw .empty
-        }
-        guard let low = iterator.next() else {
-            throw .insufficientBytes
-        }
-
-        let value = UInt16(high.underlying) << 8 | UInt16(low.underlying)
-        self.init(__unchecked: (), rawValue: value)
-    }
-}
-
-extension RFC_768.Port: Binary.Serializable {
-    public static func serialize<Buffer: RangeReplaceableCollection>(
-        _ port: RFC_768.Port,
-        into buffer: inout Buffer
-    ) where Buffer.Element == Byte {
-
-        buffer.append(contentsOf: port.rawValue.bytes(endianness: .big))
-    }
 }
 
 extension RFC_768.Port: ExpressibleByIntegerLiteral {

@@ -2,8 +2,6 @@ extension RFC_768.Header {
 
     public enum Error: Swift.Error, Sendable, Equatable {
 
-        case insufficientBytes(_ count: Int)
-
         case source(_ underlying: RFC_768.Port.Error)
 
         case destination(_ underlying: RFC_768.Port.Error)
@@ -17,9 +15,6 @@ extension RFC_768.Header {
 extension RFC_768.Header.Error: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .insufficientBytes(let count):
-            return "Header requires 8 bytes, got \(count)"
-
         case .source(let error):
             return "Invalid source port: \(error)"
 

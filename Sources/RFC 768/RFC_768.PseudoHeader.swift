@@ -1,5 +1,4 @@
 public import RFC_791
-import Standard_Library_Extensions
 
 extension RFC_768 {
 
@@ -20,22 +19,5 @@ extension RFC_768 {
             self.destination = destination
             self.length = length
         }
-    }
-}
-
-extension RFC_768.PseudoHeader: Binary.Serializable {
-    public static func serialize<Buffer: RangeReplaceableCollection>(
-        _ pseudoHeader: RFC_768.PseudoHeader,
-        into buffer: inout Buffer
-    ) where Buffer.Element == Byte {
-
-        RFC_791.IPv4.Address.serialize(pseudoHeader.source, into: &buffer)
-
-        RFC_791.IPv4.Address.serialize(pseudoHeader.destination, into: &buffer)
-
-        buffer.append(0)
-        buffer.append(Byte(RFC_768.protocolNumber))
-
-        buffer.append(contentsOf: pseudoHeader.length.bytes(endianness: .big))
     }
 }
