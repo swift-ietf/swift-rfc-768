@@ -40,7 +40,7 @@ extension `RFC 768 Tests`.`Port Tests` {
         (RFC_768.Port.ntp, 123),
         (RFC_768.Port.snmp, 161),
         (RFC_768.Port.syslog, 514),
-    ])
+    ] as [(RFC_768.Port, UInt16)])
     func `the well-known service ports carry their assigned numbers`(port: RFC_768.Port, number: UInt16) {
         #expect(port.rawValue == number)
         #expect(port.isWellKnown)
