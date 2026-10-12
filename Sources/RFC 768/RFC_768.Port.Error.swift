@@ -1,6 +1,6 @@
 extension RFC_768.Port {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case empty
 

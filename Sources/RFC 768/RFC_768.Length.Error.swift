@@ -1,6 +1,6 @@
 extension RFC_768.Length {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case empty
 

@@ -1,6 +1,6 @@
 extension RFC_768.Header {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case source(_ underlying: RFC_768.Port.Error)
 
