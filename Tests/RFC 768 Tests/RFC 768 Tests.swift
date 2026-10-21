@@ -33,14 +33,16 @@ extension `RFC 768 Tests`.`Port Tests` {
         #expect(port == RFC_768.Port(8080))
     }
 
-    @Test(arguments: [
-        (RFC_768.Port.dns, UInt16(53)),
-        (RFC_768.Port.dhcp, 67),
-        (RFC_768.Port.tftp, 69),
-        (RFC_768.Port.ntp, 123),
-        (RFC_768.Port.snmp, 161),
-        (RFC_768.Port.syslog, 514),
-    ] as [(RFC_768.Port, UInt16)])
+    @Test(
+        arguments: [
+            (RFC_768.Port.dns, UInt16(53)),
+            (RFC_768.Port.dhcp, 67),
+            (RFC_768.Port.tftp, 69),
+            (RFC_768.Port.ntp, 123),
+            (RFC_768.Port.snmp, 161),
+            (RFC_768.Port.syslog, 514),
+        ] as [(RFC_768.Port, UInt16)]
+    )
     func `the well-known service ports carry their assigned numbers`(port: RFC_768.Port, number: UInt16) {
         #expect(port.rawValue == number)
         #expect(port.isWellKnown)
