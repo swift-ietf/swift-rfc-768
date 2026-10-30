@@ -1,0 +1,25 @@
+#if Coder
+    public import Binary
+    public import Byte
+    import RFC_791
+    import RFC_791
+
+    private typealias IPProtocol = RFC_791.`Protocol`
+
+    extension RFC_768.PseudoHeader: Binary.Serializable {
+
+        public static func serialize<Buffer: RangeReplaceableCollection>(
+            _ pseudoHeader: Self,
+            into buffer: inout Buffer
+        ) where Buffer.Element == Byte {
+            RFC_791.IPv4.Address.serialize(pseudoHeader.source, into: &buffer)
+            RFC_791.IPv4.Address.serialize(pseudoHeader.destination, into: &buffer)
+
+            buffer.append(Byte(bitPattern: 0))
+            IPProtocol.serialize(RFC_768.protocolNumber, into: &buffer)
+
+            buffer.append(Byte(bitPattern: UInt8(pseudoHeader.length >> 8)))
+            buffer.append(Byte(bitPattern: UInt8(pseudoHeader.length & 0xFF)))
+        }
+    }
+#endif
