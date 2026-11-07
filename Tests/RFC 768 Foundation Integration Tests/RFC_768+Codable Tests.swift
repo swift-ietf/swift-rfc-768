@@ -3,42 +3,46 @@ import RFC_768
 import RFC_768_Foundation_Integration
 import Testing
 
-@Suite
-struct `RFC 768 Foundation Integration Tests` {
+enum `RFC_768+Codable Tests` {}
 
-    @Test
-    func `a port codes as its number`() throws {
-        let encoded = try JSONEncoder().encode(RFC_768.Port.dns)
+extension `RFC_768+Codable Tests` {
+    @Suite
+    struct `RFC 768 Foundation Integration Tests` {
 
-        #expect(String(decoding: encoded, as: UTF8.self) == "53")
-        #expect(try JSONDecoder().decode(RFC_768.Port.self, from: encoded) == .dns)
-    }
+        @Test
+        func `a port codes as its number`() throws {
+            let encoded = try JSONEncoder().encode(RFC_768.Port.dns)
 
-    @Test
-    func `a checksum codes as its number`() throws {
-        let checksum = RFC_768.Checksum(rawValue: 0xABCD)
+            #expect(String(decoding: encoded, as: UTF8.self) == "53")
+            #expect(try JSONDecoder().decode(RFC_768.Port.self, from: encoded) == .dns)
+        }
 
-        let encoded = try JSONEncoder().encode(checksum)
+        @Test
+        func `a checksum codes as its number`() throws {
+            let checksum = RFC_768.Checksum(rawValue: 0xABCD)
 
-        #expect(try JSONDecoder().decode(RFC_768.Checksum.self, from: encoded) == checksum)
-    }
+            let encoded = try JSONEncoder().encode(checksum)
 
-    @Test
-    func `a length codes as its number`() throws {
-        let length = try RFC_768.Length(20)
+            #expect(try JSONDecoder().decode(RFC_768.Checksum.self, from: encoded) == checksum)
+        }
 
-        let encoded = try JSONEncoder().encode(length)
+        @Test
+        func `a length codes as its number`() throws {
+            let length = try RFC_768.Length(20)
 
-        #expect(String(decoding: encoded, as: UTF8.self) == "20")
-        #expect(try JSONDecoder().decode(RFC_768.Length.self, from: encoded) == length)
-    }
+            let encoded = try JSONEncoder().encode(length)
 
-    @Test
-    func `a length below the header size fails to decode`() {
-        let encoded = Data("7".utf8)
+            #expect(String(decoding: encoded, as: UTF8.self) == "20")
+            #expect(try JSONDecoder().decode(RFC_768.Length.self, from: encoded) == length)
+        }
 
-        #expect(throws: DecodingError.self) {
-            try JSONDecoder().decode(RFC_768.Length.self, from: encoded)
+        @Test
+        func `a length below the header size fails to decode`() {
+            let encoded = Data("7".utf8)
+
+            #expect(throws: DecodingError.self) {
+                try JSONDecoder().decode(RFC_768.Length.self, from: encoded)
+            }
         }
     }
 }
