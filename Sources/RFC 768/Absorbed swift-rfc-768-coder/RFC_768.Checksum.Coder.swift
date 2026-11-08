@@ -14,7 +14,7 @@
         public static var coder: Coder<ArraySlice<Byte>, [Byte]> { .init() }
     }
 
-extension RFC_768.Checksum.Coder {
+    extension RFC_768.Checksum.Coder {
         public typealias Output = RFC_768.Checksum
 
         public typealias Failure = RFC_768.Checksum.Error
@@ -34,5 +34,5 @@ extension RFC_768.Checksum.Coder {
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {
             RFC_768.Checksum.serialize(output, into: &buffer)
         }
-}
+    }
 #endif

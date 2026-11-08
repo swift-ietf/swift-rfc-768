@@ -14,7 +14,7 @@
         public static var coder: Coder<ArraySlice<Byte>, [Byte]> { .init() }
     }
 
-extension RFC_768.Length.Coder {
+    extension RFC_768.Length.Coder {
         public typealias Output = RFC_768.Length
 
         public typealias Failure = RFC_768.Length.Error
@@ -40,5 +40,5 @@ extension RFC_768.Length.Coder {
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {
             RFC_768.Length.serialize(output, into: &buffer)
         }
-}
+    }
 #endif

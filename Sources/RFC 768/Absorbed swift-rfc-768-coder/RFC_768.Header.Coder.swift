@@ -14,7 +14,7 @@
         public static var coder: Coder<ArraySlice<Byte>, [Byte]> { .init() }
     }
 
-extension RFC_768.Header.Coder {
+    extension RFC_768.Header.Coder {
         public typealias Output = RFC_768.Header
 
         public typealias Failure = RFC_768.Header.Error
@@ -65,5 +65,5 @@ extension RFC_768.Header.Coder {
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {
             RFC_768.Header.serialize(output, into: &buffer)
         }
-}
+    }
 #endif

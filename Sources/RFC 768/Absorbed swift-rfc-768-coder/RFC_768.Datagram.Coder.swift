@@ -14,7 +14,7 @@
         public static var coder: Coder<ArraySlice<Byte>, [Byte]> { .init() }
     }
 
-extension RFC_768.Datagram.Coder {
+    extension RFC_768.Datagram.Coder {
         public typealias Output = RFC_768.Datagram
 
         public typealias Failure = RFC_768.Datagram.Error
@@ -48,5 +48,5 @@ extension RFC_768.Datagram.Coder {
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {
             RFC_768.Datagram.serialize(output, into: &buffer)
         }
-}
+    }
 #endif

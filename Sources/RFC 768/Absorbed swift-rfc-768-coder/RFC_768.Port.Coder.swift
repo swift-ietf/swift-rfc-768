@@ -14,7 +14,7 @@
         public static var coder: Coder<ArraySlice<Byte>, [Byte]> { .init() }
     }
 
-extension RFC_768.Port.Coder {
+    extension RFC_768.Port.Coder {
         public typealias Output = RFC_768.Port
 
         public typealias Failure = RFC_768.Port.Error
@@ -34,5 +34,5 @@ extension RFC_768.Port.Coder {
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {
             RFC_768.Port.serialize(output, into: &buffer)
         }
-}
+    }
 #endif
