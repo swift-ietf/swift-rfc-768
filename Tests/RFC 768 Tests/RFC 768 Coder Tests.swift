@@ -9,13 +9,11 @@
     import Serializer
     import Testing
 
-extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
-        @Suite
-        struct `RFC 768 Coder Tests` {
-        }
-}
+    @Suite
+    struct `RFC 768 Coder Tests` {
+    }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
+    extension `RFC 768 Coder Tests` {
         @Suite struct `Port Tests` {}
 
         @Suite struct `Length Tests` {}
@@ -31,7 +29,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         @Suite struct `Wire Vector Tests` {}
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Port Tests` {
+    extension `RFC 768 Coder Tests`.`Port Tests` {
 
         @Test
         func `reads two network-order bytes and stops`() throws {
@@ -79,7 +77,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Length Tests` {
+    extension `RFC 768 Coder Tests`.`Length Tests` {
 
         @Test
         func `reads a length that covers the header`() throws {
@@ -129,7 +127,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Checksum Tests` {
+    extension `RFC 768 Coder Tests`.`Checksum Tests` {
 
         @Test
         func `reads two network-order bytes`() throws {
@@ -266,7 +264,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Header Tests` {
+    extension `RFC 768 Coder Tests`.`Header Tests` {
 
         @Test
         func `reads the eight header bytes`() throws {
@@ -343,7 +341,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Pseudo Header Tests` {
+    extension `RFC 768 Coder Tests`.`Pseudo Header Tests` {
 
         @Test
         func `writes the addresses, a zero octet, the protocol number and the length`() throws {
@@ -376,7 +374,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Datagram Tests` {
+    extension `RFC 768 Coder Tests`.`Datagram Tests` {
 
         @Test
         func `writes the header then the payload`() throws {
@@ -488,7 +486,7 @@ extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests` {
         }
     }
 
-    extension `RFC 768 Coder Tests`.`RFC 768 Coder Tests`.`Wire Vector Tests` {
+    extension `RFC 768 Coder Tests`.`Wire Vector Tests` {
 
         @Test
         func `a name-service query from 10.0.0.1 to 10.0.0.2`() throws {

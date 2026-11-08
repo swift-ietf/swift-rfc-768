@@ -3,13 +3,11 @@ import RFC_768
 import RFC_791
 import Testing
 
-extension `RFC 768 Tests`.`RFC 768 Tests` {
-    @Suite
-    struct `RFC 768 Tests` {
-    }
+@Suite
+struct `RFC 768 Tests` {
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests` {
+extension `RFC 768 Tests` {
     @Suite struct `Port Tests` {}
 
     @Suite struct `Length Tests` {}
@@ -29,7 +27,7 @@ func bytes(_ values: UInt8...) -> [Byte] {
     values.map(Byte.init(bitPattern:))
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Port Tests` {
+extension `RFC 768 Tests`.`Port Tests` {
 
     @Test
     func `a port is its sixteen-bit number`() {
@@ -79,7 +77,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Port Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Length Tests` {
+extension `RFC 768 Tests`.`Length Tests` {
 
     @Test
     func `a length counts the header and the payload`() throws {
@@ -107,7 +105,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Length Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Checksum Tests` {
+extension `RFC 768 Tests`.`Checksum Tests` {
 
     @Test
     func `the zero checksum means absent`() {
@@ -123,7 +121,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Checksum Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Header Tests` {
+extension `RFC 768 Tests`.`Header Tests` {
 
     @Test
     func `a header carries its four fields`() throws {
@@ -140,7 +138,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Header Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Pseudo Header Tests` {
+extension `RFC 768 Tests`.`Pseudo Header Tests` {
 
     @Test
     func `a pseudo header carries the addresses and length the checksum covers`() throws {
@@ -155,7 +153,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Pseudo Header Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Datagram Tests` {
+extension `RFC 768 Tests`.`Datagram Tests` {
 
     @Test
     func `a datagram measures its own length`() throws {
@@ -220,7 +218,7 @@ extension `RFC 768 Tests`.`RFC 768 Tests`.`Datagram Tests` {
     }
 }
 
-extension `RFC 768 Tests`.`RFC 768 Tests`.`Specification Tests` {
+extension `RFC 768 Tests`.`Specification Tests` {
 
     @Test
     func `the specification pins the protocol number and the header size`() {
