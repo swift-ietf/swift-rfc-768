@@ -11,7 +11,10 @@ extension RFC_768 {
         }
 
         public init(_ value: UInt16) throws(Error) {
-            try self.init(rawValue: value)
+            guard value >= RFC_768.minimumLength else {
+                throw .tooShort(value)
+            }
+            self.rawValue = value
         }
     }
 }

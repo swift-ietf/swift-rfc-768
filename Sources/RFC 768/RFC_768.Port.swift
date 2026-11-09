@@ -3,33 +3,29 @@ extension RFC_768 {
     public struct Port: RawRepresentable, Hashable, Sendable {
         public let rawValue: UInt16
 
-        private init(__unchecked: Void, rawValue: UInt16) {
+        public init(rawValue: UInt16) {
             self.rawValue = rawValue
         }
 
-        public init(rawValue: UInt16) {
-            self.init(__unchecked: (), rawValue: rawValue)
-        }
-
         public init(_ value: UInt16) {
-            self.init(__unchecked: (), rawValue: value)
+            self.init(rawValue: value)
         }
     }
 }
 
 extension RFC_768.Port {
 
-    public static let dns = Self(__unchecked: (), rawValue: 53)
+    public static let dns = Self(rawValue: 53)
 
-    public static let dhcp = Self(__unchecked: (), rawValue: 67)
+    public static let dhcp = Self(rawValue: 67)
 
-    public static let tftp = Self(__unchecked: (), rawValue: 69)
+    public static let tftp = Self(rawValue: 69)
 
-    public static let ntp = Self(__unchecked: (), rawValue: 123)
+    public static let ntp = Self(rawValue: 123)
 
-    public static let snmp = Self(__unchecked: (), rawValue: 161)
+    public static let snmp = Self(rawValue: 161)
 
-    public static let syslog = Self(__unchecked: (), rawValue: 514)
+    public static let syslog = Self(rawValue: 514)
 }
 
 extension RFC_768.Port {

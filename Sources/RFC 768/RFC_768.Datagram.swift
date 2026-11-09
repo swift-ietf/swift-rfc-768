@@ -15,7 +15,8 @@ extension RFC_768 {
             guard Int(header.length.data) == data.count else {
                 throw .lengthMismatch(header: Int(header.length.data), data: data.count)
             }
-            self.init(__unchecked: (), header: header, data: data)
+            self.header = header
+            self.data = data
         }
     }
 }
