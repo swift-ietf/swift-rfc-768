@@ -9,6 +9,8 @@ extension RFC_768.Datagram {
         case header(_ underlying: RFC_768.Header.Error)
 
         case insufficientData(expected: Int, got: Int)
+
+        case lengthMismatch(header: Int, data: Int)
     }
 }
 
@@ -26,6 +28,9 @@ extension RFC_768.Datagram.Error: CustomStringConvertible {
 
         case .insufficientData(let expected, let got):
             return "Insufficient data: expected \(expected) bytes, got \(got)"
+
+        case .lengthMismatch(let header, let data):
+            return "Length mismatch: header describes \(header) payload bytes, got \(data)"
         }
     }
 }

@@ -6,9 +6,16 @@ extension RFC_768 {
         public let header: Header
         public let data: [Byte]
 
-        public init(header: Header, data: [Byte]) {
+        init(__unchecked: Void, header: Header, data: [Byte]) {
             self.header = header
             self.data = data
+        }
+
+        public init(header: Header, data: [Byte]) throws(Error) {
+            guard Int(header.length.data) == data.count else {
+                throw .lengthMismatch(header: Int(header.length.data), data: data.count)
+            }
+            self.init(__unchecked: (), header: header, data: data)
         }
     }
 }
@@ -34,12 +41,15 @@ extension RFC_768.Datagram {
             throw .length(error)
         }
 
-        self.header = RFC_768.Header(
-            source: source,
-            destination: destination,
-            length: length,
-            checksum: checksum
+        self.init(
+            __unchecked: (),
+            header: RFC_768.Header(
+                source: source,
+                destination: destination,
+                length: length,
+                checksum: checksum
+            ),
+            data: data
         )
-        self.data = data
     }
 }

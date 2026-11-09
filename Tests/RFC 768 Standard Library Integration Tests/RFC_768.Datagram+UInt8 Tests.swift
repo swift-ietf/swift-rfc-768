@@ -18,7 +18,7 @@ extension `RFC_768.Datagram+UInt8 Tests` {
                 checksum: .zero
             )
             let payload: [UInt8] = [0x00, 0x01, 0x00, 0x00]
-            let datagram = RFC_768.Datagram(header: header, data: payload)
+            let datagram = try RFC_768.Datagram(header: header, data: payload)
             #expect(datagram.header == header)
             #expect(datagram.data == payload.map(Byte.init(bitPattern:)))
         }

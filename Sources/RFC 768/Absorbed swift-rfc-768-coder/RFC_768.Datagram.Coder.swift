@@ -42,7 +42,7 @@
                 data.append(byte)
             }
 
-            return RFC_768.Datagram(header: header, data: data)
+            return RFC_768.Datagram(__unchecked: (), header: header, data: data)
         }
 
         public borrowing func serialize(_ output: Output, into buffer: inout Buffer) throws(Failure) {

@@ -4,8 +4,8 @@ public import RFC_768
 extension RFC_768.Datagram {
 
     @_disfavoredOverload
-    public init(header: RFC_768.Header, data: [UInt8]) {
-        self.init(header: header, data: data.map(Byte.init(bitPattern:)))
+    public init(header: RFC_768.Header, data: [UInt8]) throws(RFC_768.Datagram.Error) {
+        try self.init(header: header, data: data.map(Byte.init(bitPattern:)))
     }
 
     @_disfavoredOverload

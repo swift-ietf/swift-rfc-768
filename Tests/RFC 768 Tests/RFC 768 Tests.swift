@@ -197,9 +197,25 @@ extension `RFC 768 Tests`.`Datagram Tests` {
             length: try .init(12),
             checksum: .zero
         )
-        let datagram = RFC_768.Datagram(header: header, data: bytes(1, 2, 3, 4))
+        let datagram = try RFC_768.Datagram(header: header, data: bytes(1, 2, 3, 4))
         #expect(datagram.header == header)
         #expect(datagram.data == bytes(1, 2, 3, 4))
+    }
+
+    @Test
+    func `a header whose length disagrees with the payload is refused`() throws {
+        let header = RFC_768.Header(
+            source: .ntp,
+            destination: .init(50000),
+            length: try .init(12),
+            checksum: .zero
+        )
+        #expect(throws: RFC_768.Datagram.Error.lengthMismatch(header: 4, data: 3)) {
+            try RFC_768.Datagram(header: header, data: bytes(1, 2, 3))
+        }
+        #expect(throws: RFC_768.Datagram.Error.lengthMismatch(header: 4, data: 5)) {
+            try RFC_768.Datagram(header: header, data: bytes(1, 2, 3, 4, 5))
+        }
     }
 
     @Test
